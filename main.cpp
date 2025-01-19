@@ -159,6 +159,8 @@ float rotasiZ[JUMLAH_SALJU];
 float kecepatanPutar[JUMLAH_SALJU];
 
 
+ // Membuat array posisi dan kecepatan salju
+// Menghasilkan posisi acak untuk setiap butiran salju
 void inisialisasiSalju() {
     srand(time(NULL));
     for(int i = 0; i < JUMLAH_SALJU; i++) {
@@ -173,6 +175,7 @@ void inisialisasiSalju() {
     }
 }
 
+// Menggambar setiap butiran salju
 void gambarKepinganSalju(float ukuran) {
     glDisable(GL_TEXTURE_2D); // Nonaktifkan tekstur
     glBegin(GL_LINES);
@@ -798,7 +801,6 @@ void display()
     pohon();
     glTranslatef(10.0f, 0.0f, 0.0f);
     glPopMatrix();
-   
 
     glutSwapBuffers();
     glutPostRedisplay();
@@ -807,6 +809,8 @@ void display()
 
 GLuint textureID = 0;
 
+// Memperbarui posisi dan rotasi salju
+// Membuat efek jatuh dan bergerak
 void perbaruiSalju(int nilai) {
     for(int i = 0; i < JUMLAH_SALJU; i++) {
         // Update posisi
@@ -830,6 +834,8 @@ void perbaruiSalju(int nilai) {
     glutTimerFunc(16, perbaruiSalju, 0);
 }
 
+// Memuat tekstur menggunakan FreeImage
+// Mengonversi gambar menjadi tekstur OpenGL
 //penggunaan Texture ini bisa di gambarkan sebagai array
 int loadTexture(const char* path) 
 {
@@ -890,6 +896,9 @@ void initProjection(){
     
 }
 
+// Kontrol pergerakan kamera (WASD)
+// Kontrol ketinggian kamera
+// Kontrol cahaya
 void keyboard(unsigned char key, int x, int y)
 {
     switch (key) {
@@ -914,24 +923,6 @@ void keyboard(unsigned char key, int x, int y)
         case 'h':
             hidden = !hidden;
             break;
-        case 'q': // Pindahkan cahaya ke depan
-            lightPos[2] -= 1.0f;
-            break;
-        case 'e': // Pindahkan cahaya ke belakang
-            lightPos[2] += 1.0f;
-            break;
-        case 'z': // Pindahkan cahaya ke kiri
-            lightPos[0] -= 1.0f;
-            break;
-        case 'c': // Pindahkan cahaya ke kanan
-            lightPos[0] += 1.0f;
-            break;
-        case 'x': // Reset posisi cahaya
-            lightPos[0] = 1.0f;
-            lightPos[1] = 1.0f;
-            lightPos[2] = 1.0f;
-            break;
-            glutPostRedisplay();
         
     }
 }
@@ -954,6 +945,8 @@ void keyboardUp(unsigned char key, int x, int y)
     }
 }
 
+// Mengubah arah pandang kamera
+// Mengatur sensitivitas gerakan
 void mouseMotion(int x, int y)
 {
         if (firstMouse) {
@@ -977,6 +970,11 @@ void mouseMotion(int x, int y)
 
 }
 
+// Inisialisasi GLUT
+// Pengaturan window
+// Registrasi fungsi callback
+// Memuat model 3D
+// Memulai loop utama
 int main(int argc, char** argv){
  //catatan disini Kenapa RGBA bukan RGB?? karena texture meminta ALPHA sebagai bahan render
     glutInit(&argc, argv);
